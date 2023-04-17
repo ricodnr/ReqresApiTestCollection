@@ -1,0 +1,1848 @@
+{
+	"info": {
+		"_postman_id": "53d8abfa-80c6-469a-acb8-3c7eb4a9e51c",
+		"name": "ReqRes API Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26866723"
+	},
+	"item": [
+		{
+			"name": "Positive Cases",
+			"item": [
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "Creates a user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contain Id Token\", function () {\r",
+											"    var resp = pm.response;\r",
+											"    pm.expect(resp.text()).to.include(\"id\");\r",
+											"    pm.expect(resp.text()).to.include(\"token\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response id validation\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.id).to.eql(9);\r",
+											"});\r",
+											"\r",
+											"var token = pm.response.json().token;\r",
+											"var id = pm.response.json().id;\r",
+											"\r",
+											"//set tToken value\r",
+											"pm.environment.set(\"tToken\",token);\r",
+											"\r",
+											"//set tId value\r",
+											"pm.environment.set(\"tId\",id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\":\"{{tEmail}}\",\n  \"password\" : \"{{tPassword}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"register"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"username\": \"tempor dolor nisi\",\n  \"email\": \"officia incididunt enim\",\n  \"password\": \"deserunt laboris\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/register",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"register"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": \"non\",\n  \"token\": \"est fugiat\"\n}"
+								},
+								{
+									"name": "Register error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"username\": \"tempor dolor nisi\",\n  \"email\": \"officia incididunt enim\",\n  \"password\": \"deserunt laboris\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/register",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"register"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error\": \"occaecat\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Creates a session",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contain Token\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"token\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response token match tToken\", function () {\r",
+											"    var token = pm.response.json().token;\r",
+											"    tToken = pm.environment.get(\"tToken\");\r",
+											"    pm.expect(token).to.eql(tToken);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"{{tEmail}}\",\n  \"password\": \"{{tPassword}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"username\": \"tempor dolor nisi\",\n  \"email\": \"officia incididunt enim\",\n  \"password\": \"deserunt laboris\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"login"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"token\": \"i\"\n}"
+								},
+								{
+									"name": "Login error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"username\": \"tempor dolor nisi\",\n  \"email\": \"officia incididunt enim\",\n  \"password\": \"deserunt laboris\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"login"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error\": \"occaecat\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Ends a session",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/logout",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"logout"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/logout",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"logout"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Fetches a user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contain items\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"email\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"first_name\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"last_name\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"avatar\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"url\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"text\");\r",
+											"});\r",
+											"\r",
+											"var data = pm.response.json().data;\r",
+											"\r",
+											"//Set environment variables\r",
+											"pm.environment.set(\"tFirst_name\",data.first_name);\r",
+											"pm.environment.set(\"tLast_name\",data.last_name);\r",
+											"pm.environment.set(\"tAvatar\",data.avatar);\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/users/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{tId}}"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "37298670"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": {\n    \"id\": -17180205,\n    \"email\": \"reprehenderit laboris c\",\n    \"first_name\": \"consectetur eiusmod\",\n    \"last_name\": \"cupidatat eu nisi sed officia\",\n    \"avatar\": \"ad mollit sunt\"\n  }\n}"
+								}
+							]
+						},
+						{
+							"name": "Updates a user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contain updatedAt\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"updatedAt\");\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/users/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{tId}}"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"updatedAt\": \"consequat in Duis\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Updates a user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contain updatedAt\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"updatedAt\");\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/users/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{tId}}"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"updatedAt\": \"consequat in Duis\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Deletes a user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/users/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{tId}}"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Fetches a user list",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains items\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"page\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"per_page\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"total\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"total_pages\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"data\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"email\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"first_name\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"last_name\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"avatar\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response value check\", function () {\r",
+											"    const page = pm.environment.get(\"tPage\");\r",
+											"    const perpage = pm.environment.get(\"tPerPage\");\r",
+											"    pm.expect(pm.response.json().page).to.eql(parseInt(page));\r",
+											"    pm.expect(pm.response.json().per_page).to.eql(parseInt(perpage));\r",
+											"    var jsonData = pm.response.json().data[2];\r",
+											"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"tId\"));\r",
+											"    pm.expect(jsonData.email).to.eql(pm.environment.get(\"tEmail\"));\r",
+											"    pm.expect(jsonData.first_name).to.eql(pm.environment.get(\"tFirst_name\"));\r",
+											"    pm.expect(jsonData.last_name).to.eql(pm.environment.get(\"tLast_name\"));\r",
+											"    pm.expect(jsonData.avatar).to.eql(pm.environment.get(\"tAvatar\"));\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/users?page={{tPage}}&per_page={{tPerPage}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "{{tPage}}"
+										},
+										{
+											"key": "per_page",
+											"value": "{{tPerPage}}"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users?page=37298670&per_page=37298670",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "37298670"
+												},
+												{
+													"key": "per_page",
+													"value": "37298670"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"page\": 23355876,\n  \"per_page\": 77853441,\n  \"total\": -41757218,\n  \"total_pages\": -28195710,\n  \"data\": [\n    {\n      \"id\": 84840977,\n      \"email\": \"et amet irure esse\",\n      \"first_name\": \"proident mollit\",\n      \"last_name\": \"occaecat enim Duis\",\n      \"avatar\": \"deserunt ipsum minim\"\n    },\n    {\n      \"id\": -1292845,\n      \"email\": \"ullamco minim\",\n      \"first_name\": \"mollit dolor et\",\n      \"last_name\": \"occaecat sit ut officia anim\",\n      \"avatar\": \"u\"\n    }\n  ]\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "{resources}",
+					"item": [
+						{
+							"name": "Fetches an unknown resource",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains items\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"data\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"name\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"year\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"color\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"pantone_value\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"support\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"url\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"text\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response value check\", function () {\r",
+											"    var jsonData = pm.response.json().data;\r",
+											"    pm.expect(jsonData.id).to.eql(1);\r",
+											"    pm.expect(jsonData.name).to.eql(\"cerulean\");\r",
+											"    pm.expect(jsonData.color).to.eql(\"#98B2D1\");\r",
+											"    pm.expect(jsonData.year).to.eql(2000);\r",
+											"    pm.expect(jsonData.pantone_value).to.eql(\"15-4020\");\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/:resource/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										":resource",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "resource",
+											"value": "{{tResource}}"
+										},
+										{
+											"key": "id",
+											"value": "{{tRId}}"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/:resource/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												":resource",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "37298670"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": {\n    \"id\": -16235227,\n    \"name\": \"veniam nostrud\",\n    \"year\": 79193270,\n    \"color\": \"minim\",\n    \"pantone_value\": \"Ut Lorem\"\n  }\n}"
+								},
+								{
+									"name": "Fetched successfully",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://reqres.in/api/:resource/:id",
+											"protocol": "https",
+											"host": [
+												"reqres",
+												"in"
+											],
+											"path": [
+												"api",
+												":resource",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "resource",
+													"value": null
+												},
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Sat, 15 Apr 2023 03:24:02 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Etag",
+											"value": "W/\"e4-2W7ZNEqb4DWjJCUXzZoMFmGhgio\""
+										},
+										{
+											"key": "Via",
+											"value": "1.1 vegur"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "max-age=14400"
+										},
+										{
+											"key": "CF-Cache-Status",
+											"value": "HIT"
+										},
+										{
+											"key": "Age",
+											"value": "592"
+										},
+										{
+											"key": "Report-To",
+											"value": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=YPW3YqWTCZ4chzzQMaeRst%2Ff6nOe2j26PzczKG%2F1LbGVCY0nSq39lLKqCkvFqdMZ7M5rZEcsF%2Babea65aZPO13QB8hPcvp%2BE4ZXzXdmTGJzOer96EqAxCERyAQ%3D%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
+										},
+										{
+											"key": "NEL",
+											"value": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Server",
+											"value": "cloudflare"
+										},
+										{
+											"key": "CF-RAY",
+											"value": "7b8112c1cfd3e662-HKG"
+										},
+										{
+											"key": "Content-Encoding",
+											"value": "br"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"cerulean\",\n        \"year\": 2000,\n        \"color\": \"#98B2D1\",\n        \"pantone_value\": \"15-4020\"\n    },\n    \"support\": {\n        \"url\": \"https://reqres.in/#support-heading\",\n        \"text\": \"To keep ReqRes free, contributions towards server costs are appreciated!\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Updates an unknown resource",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body matches string\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"updatedAt\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/:resource/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										":resource",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "resource",
+											"value": "{{tResource}}"
+										},
+										{
+											"key": "id",
+											"value": "{{tRId}}"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/:resource/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												":resource",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "resource"
+												},
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"updatedAt\": \"consequat in Duis\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Updates an unknown resource Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body matches string\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"updatedAt\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/:resource/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										":resource",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "resource",
+											"value": "{{tResource}}"
+										},
+										{
+											"key": "id",
+											"value": "{{tRId}}"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/:resource/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												":resource",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "resource"
+												},
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"updatedAt\": \"consequat in Duis\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Deletes an unknown resource",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/:resource/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										":resource",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "resource",
+											"value": "{{tResource}}"
+										},
+										{
+											"key": "id",
+											"value": "{{tRId}}"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/:resource/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												":resource",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "resource"
+												},
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Fetches a resource list",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body matches string\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"page\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"per_page\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"total\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"total_pages\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"data\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"name\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"year\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"color\");\r",
+											"    pm.expect(pm.response.text()).to.include(\"pantone_value\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Your test name\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.page).to.eql(1);\r",
+											"    pm.expect(jsonData.per_page).to.eql(10);\r",
+											"    pm.expect(jsonData.data[0].id).to.eql(1);\r",
+											"    pm.expect(jsonData.data[0].name).to.eql(\"cerulean\");\r",
+											"    pm.expect(jsonData.data[0].year).to.eql(2000);\r",
+											"    pm.expect(jsonData.data[0].color).to.eql(\"#98B2D1\");\r",
+											"    pm.expect(jsonData.data[0].pantone_value).to.eql(\"15-4020\");\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/:resource?page=1&per_page=10",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										":resource"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "per_page",
+											"value": "10"
+										}
+									],
+									"variable": [
+										{
+											"key": "resource",
+											"value": "{{tResource}}"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/:resource?page=37298670&per_page=37298670",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												":resource"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "37298670"
+												},
+												{
+													"key": "per_page",
+													"value": "37298670"
+												}
+											],
+											"variable": [
+												{
+													"key": "resource"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"page\": 53307193,\n  \"per_page\": 80736211,\n  \"total\": 81049647,\n  \"total_pages\": -1714474,\n  \"data\": [\n    {\n      \"id\": -94428572,\n      \"name\": \"sunt\",\n      \"year\": 41768830,\n      \"color\": \"in adipisicing quis dolore labore\",\n      \"pantone_value\": \"nisi nulla adipisicing Ut irure\"\n    },\n    {\n      \"id\": 17513176,\n      \"name\": \"dolor in\",\n      \"year\": 60925147,\n      \"color\": \"occaecat proident deserunt cillum\",\n      \"pantone_value\": \"laborum adipisicing minim nulla in\"\n    }\n  ]\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Negative Cases",
+			"item": [
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "Creates a user - E",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contain error\", function () {\r",
+											"    var resp = pm.response;\r",
+											"    pm.expect(resp.text()).to.include(\"error\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response error\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.error).to.eql(\"Missing password\");\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\":\"{{tEmail}}\",\n  \"password\" : \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"register"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"username\": \"tempor dolor nisi\",\n  \"email\": \"officia incididunt enim\",\n  \"password\": \"deserunt laboris\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/register",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"register"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": \"non\",\n  \"token\": \"est fugiat\"\n}"
+								},
+								{
+									"name": "Register error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"username\": \"tempor dolor nisi\",\n  \"email\": \"officia incididunt enim\",\n  \"password\": \"deserunt laboris\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/register",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"register"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error\": \"occaecat\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Creates a session - E",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contain error\", function () {\r",
+											"    var resp = pm.response;\r",
+											"    pm.expect(resp.text()).to.include(\"error\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response error\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.error).to.eql(\"Missing password\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"{{tEmail}}\",\n  \"password\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"username\": \"tempor dolor nisi\",\n  \"email\": \"officia incididunt enim\",\n  \"password\": \"deserunt laboris\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"login"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"token\": \"i\"\n}"
+								},
+								{
+									"name": "Login error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"username\": \"tempor dolor nisi\",\n  \"email\": \"officia incididunt enim\",\n  \"password\": \"deserunt laboris\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"login"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"error\": \"occaecat\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "{resources}",
+					"item": [
+						{
+							"name": "Fetches an unknown resource - E",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/:resource/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										":resource",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "resource",
+											"value": "{{tResource}}"
+										},
+										{
+											"key": "id",
+											"value": "123ab"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/:resource/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												":resource",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "37298670"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": {\n    \"id\": -16235227,\n    \"name\": \"veniam nostrud\",\n    \"year\": 79193270,\n    \"color\": \"minim\",\n    \"pantone_value\": \"Ut Lorem\"\n  }\n}"
+								},
+								{
+									"name": "Fetched successfully",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://reqres.in/api/:resource/:id",
+											"protocol": "https",
+											"host": [
+												"reqres",
+												"in"
+											],
+											"path": [
+												"api",
+												":resource",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "resource",
+													"value": null
+												},
+												{
+													"key": "id",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Sat, 15 Apr 2023 03:24:02 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Etag",
+											"value": "W/\"e4-2W7ZNEqb4DWjJCUXzZoMFmGhgio\""
+										},
+										{
+											"key": "Via",
+											"value": "1.1 vegur"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "max-age=14400"
+										},
+										{
+											"key": "CF-Cache-Status",
+											"value": "HIT"
+										},
+										{
+											"key": "Age",
+											"value": "592"
+										},
+										{
+											"key": "Report-To",
+											"value": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=YPW3YqWTCZ4chzzQMaeRst%2Ff6nOe2j26PzczKG%2F1LbGVCY0nSq39lLKqCkvFqdMZ7M5rZEcsF%2Babea65aZPO13QB8hPcvp%2BE4ZXzXdmTGJzOer96EqAxCERyAQ%3D%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
+										},
+										{
+											"key": "NEL",
+											"value": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Server",
+											"value": "cloudflare"
+										},
+										{
+											"key": "CF-RAY",
+											"value": "7b8112c1cfd3e662-HKG"
+										},
+										{
+											"key": "Content-Encoding",
+											"value": "br"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"cerulean\",\n        \"year\": 2000,\n        \"color\": \"#98B2D1\",\n        \"pantone_value\": \"15-4020\"\n    },\n    \"support\": {\n        \"url\": \"https://reqres.in/#support-heading\",\n        \"text\": \"To keep ReqRes free, contributions towards server costs are appreciated!\"\n    }\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}
