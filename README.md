@@ -1,2 +1,2 @@
 # ReqresApiTestCollection
-Reqres sample api test cases
+Reqres api sample test cases
